@@ -14,7 +14,7 @@
     <div class="type_text">
       {{ type.text }}
     </div>
-    <Title
+    <Tooltip
         class="type_title"
         :text="type.title"
     />
@@ -58,9 +58,9 @@
       left: auto
 </style>
 <script>
-import Title from "./Tooltip";
+import Tooltip from "./Tooltip";
 export default {
-  components: {Title},
+  components: {Tooltip},
   props: {
     type: {
       type: Object,

@@ -5,8 +5,8 @@
   >
     <div class="list_wrapper">
       <Search
-          :keyword="keyword"
-          :set-input="setKeyword"
+          :value="keyword"
+          :on-input="onInputChange"
           :filters="filters"
           :is-open="isOpenFilters"
           :open-filters="openFilters"
@@ -18,7 +18,7 @@
           :click-handler="checkAllProducts"
           class="list_controls"
       />
-      <div class="list_prod">
+      <div class="list_prod" v-if="filteredProducts.length">
         <Product
             v-for="product of filteredProducts"
             :key="product.id"
@@ -177,14 +177,14 @@ export default {
   },
   computed: {
     getCheckedAll() {
-      return Boolean(this.filteredProducts.filter((prod) => (prod.isChecked)).length === this.filteredProducts.length && this.filteredProducts.length);
+      return Boolean(this.filteredProducts.every((product) => (product.isChecked)) && this.filteredProducts.length);
     },
   },
   created() {
     this.filteredProducts = [...this.products];
   },
   methods: {
-    setKeyword(e) {
+    onInputChange(e) {
       this.keyword = e.target.value.trim();
       this.filteredProducts = this.products.filter((i) => {
         if (i.name.toLowerCase().indexOf(this.keyword.toLowerCase()) > -1
@@ -202,12 +202,13 @@ export default {
     },
     filterProducts() {
       const activeFilter = this.filters.filter((filter) => (filter.isChecked));
-      this.filteredProducts = this.products.filter((prod) => {
+      this.filteredProducts = this.products.filter((product) => {
         for (let i = 0; i < activeFilter.length; i += 1) {
-          if (prod.status.type === activeFilter[i].type) {
-            return prod;
-          } else if ((prod.status.type === 'individual' || prod.status.type === 'entity') && activeFilter[i].type === 'active') {
-            return prod;
+          if (product.status.type === activeFilter[i].type) {
+            return product;
+          } else if ((product.status.type === 'individual' || product.status.type === 'entity')
+              && activeFilter[i].type === 'active') {
+            return product;
           }
         }
       });
@@ -222,29 +223,29 @@ export default {
       this.filterProducts();
     },
     checkAllProducts() {
-      this.filteredProducts = this.filteredProducts.map((prod) => {
+      this.filteredProducts = this.filteredProducts.map((product) => {
         if (this.getCheckedAll) {
           return {
-            ...prod,
+            ...product,
             isChecked: false,
           }
         } else {
           return {
-            ...prod,
+            ...product,
             isChecked: true,
           }
         }
       });
     },
     checkProduct(id) {
-      this.filteredProducts = this.filteredProducts.map((prod) => {
-        if (prod.id === id) {
+      this.filteredProducts = this.filteredProducts.map((product) => {
+        if (product.id === id) {
           return {
-            ...prod,
-            isChecked: !prod.isChecked,
+            ...product,
+            isChecked: !product.isChecked,
           }
         }
-        return prod;
+        return product;
       });
     },
   },

@@ -2,8 +2,8 @@
   <div class="input">
     <div class="input_loupe"></div>
     <input
-        @input="setInput($event)"
-        :value="keyword"
+        @input="onInput($event)"
+        :value="value"
         class="input_enter"
         placeholder="Введите ЖК / корпус / № квартиры / № паркинга"
         type="search"
@@ -33,11 +33,11 @@
 <script>
 export default {
   props: {
-    keyword: {
+    value: {
       type: String,
       required: true,
     },
-    setInput: {
+    onInput: {
       type: Function,
       required: true,
     },

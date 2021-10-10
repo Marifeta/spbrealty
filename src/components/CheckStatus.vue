@@ -79,7 +79,7 @@ export default {
     background-image: url("../assets/arrow.svg")
     @include background_image
     height: 100%
-    width: 6px
+    width: 10px
     margin-left: 6px
     transform: rotate(180deg)
     transition: transform 300ms ease

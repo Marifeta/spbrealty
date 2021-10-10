@@ -1,9 +1,6 @@
 <template>
   <div id="app">
     <List />
-    <div>
-
-    </div>
   </div>
 </template>
 
